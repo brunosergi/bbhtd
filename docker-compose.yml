@@ -1,0 +1,32 @@
+services:
+  bbhtd:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    image: bbhtd:docker
+    container_name: bbhtd
+    hostname: bbhtd
+    stdin_open: true
+    tty: true
+    privileged: true
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - DISPLAY=unix${DISPLAY}
+    volumes:
+      - ${HOME}/.Xauthority:/root/.Xauthority:rw
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - /sys/fs/cgroup/:/sys/fs/cgroup:ro
+      - ./shared:/root/shared  # Shared directory for file exchange
+    devices:
+      - /dev/snd
+      - /dev/dri
+      - /dev/net/tun:/dev/net/tun
+    command: /bin/bash
+    
+    # Optional: mount additional directories
+    # volumes:
+    #   - ./wordlists:/root/wordlists:ro
+    #   - ./results:/root/results:rw
+    #   - ./configs:/root/configs:rw

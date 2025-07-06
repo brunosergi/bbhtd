@@ -1,0 +1,2 @@
+# This directory is shared between host and container
+# Place files here to exchange data between your host system and the BBHTD container
